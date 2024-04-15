@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSE 160 Assignments</title>
+    <style>
+        iframe {
+            width: 100%;
+            height: 500px; /* Adjust height as necessary */
+            border: none;  /* Removes the default iframe border */
+        }
+    </style>
 </head>
 <body>
     <h1>Welcome to CSE 160 Assignments</h1>
     <p>Select an assignment to view:</p>
     <ul>
-        <li><a href="assignments/asgn0/asg0.html">Assignment 0</a></li>
-        <li><a href="assignments/asgn1/">Assignment 1</a></li>
+        <li><a href="assignments/asgn0/asg0.html" target="assignmentFrame">Assignment 0</a></li>
+        <li><a href="assignments/asgn1/index.html" target="assignmentFrame">Assignment 1</a></li>
     </ul>
+
+    <!-- Embedding asg0.html within the page -->
+    <iframe src="assignments/asgn0/asg0.html" name="assignmentFrame"></iframe>
 </body>
 </html>
