@@ -7,8 +7,8 @@
     <style>
         iframe {
             width: 100%;
-            height: 100%; /* Adjust height as necessary */
-            border: none;  /* Removes the default iframe border */
+            border: none; /* Removes the default iframe border */
+            overflow: hidden; /* Prevent scrollbars */
         }
     </style>
 </head>
@@ -21,6 +21,19 @@
     </ul>
 
     <!-- Embedding asg0.html within the page -->
-    <iframe src="assignments/asgn0/asg0.html" name="assignmentFrame"></iframe>
+    <iframe src="assignments/asgn0/asg0.html" name="assignmentFrame" id="assignmentFrame" onload="resizeIframe(this)"></iframe>
+
+    <script>
+        function resizeIframe(iframe) {
+            try {
+                // Adjust the height of the iframe to match the content
+                if(iframe.contentWindow.document.body) {
+                    iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+                }
+            } catch (e) {
+                console.error('Error resizing iframe:', e);
+            }
+        }
+    </script>
 </body>
 </html>
