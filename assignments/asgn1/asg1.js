@@ -135,6 +135,14 @@ function click(ev) {
     let displayX = ((x + 1) / 2 * canvas.width).toFixed(2);
     let displayY = ((1 - y) / 2 * canvas.height).toFixed(2);
 
+    let [webglX, webglY] = convertCoordinatesEventToGL2(ev);
+
+    // Store the WebGL coordinates in the global array
+    g_clickedPoints.push({ x: webglX, y: webglY });
+
+    // Update the display of clicked coordinates
+    updateClickedCoordinatesList();
+
     // Create and store the new point
     let point;
     if(g_selectedType==POINT){
@@ -168,11 +176,6 @@ function click(ev) {
     // Draw every shape that is supposed to be on the canvas
     renderAllShapes();  
     updateCoordinateDisplay(displayX, displayY);
-    // Convert the coordinates to WebGL coordinate system and store them
-    g_clickedPoints.push({x: x, y: y});
-
-    // Update the display of clicked coordinates
-    updateClickedCoordinatesList();
 }
 
 function updateCoordinateDisplay(x, y) {
@@ -186,6 +189,23 @@ function updateClickedCoordinatesList() {
     }
     document.getElementById('coordinatesList').innerHTML = listHtml;
 }
+
+function convertCoordinatesEventToGL2(ev) {
+    var x = ev.clientX; // x in browser space
+    var y = ev.clientY; // y in browser space
+    var rect = ev.target.getBoundingClientRect(); // get the canvas position and size
+
+    // Convert to coordinates relative to the canvas
+    x = x - rect.left;
+    y = y - rect.top;
+
+    // Normalize to [-1, 1], with y inverted
+    x = (x / rect.width) * 2 - 1;
+    y = 1 - (y / rect.height) * 2;
+
+    return [x, y];
+}
+2
 
 // Extract the event click and return it in WebGL coordinates
 function convertCoordinatesEventToGL(ev) {
@@ -237,12 +257,14 @@ function createHeartShape() {
     let purple = [0.63, 0.13, 0.94, 1.0]
     let red = [0.8, 0.0, 0.1, 1.0]
 
-    let coord1 = [117/399, 151/399,  155/399,121/399, 190/399,149/399];
+    let coord1 = [-0.54, 0.46,  155/399,121/399, 190/399,149/399];
     let triangle1 = [0.29,  0.37,   0.39, 0.3,  0.47, 0.37];
     
-    heartTriangles.push([triangle1, red]);
-    heartTriangles.push([[-0.1, 0.3,    -0.3, 0.5,      0.0, 0.6], purple]);
-    heartTriangles.push([ [0.4, 0.0,     0.1, 0.0,     0.0, 0.1], purple]);
+    // heartTriangles.push([triangle1, red]);
+    heartTriangles.push([[-0.02, 0.25,    -0.19, 0.41,      -0.37, 0.26], purple]);
+    heartTriangles.push([[0.19, 0.42,    -0.03, 0.26,      0.39, 0.27], purple]);
+    heartTriangles.push([[-0.03, 0.26,    0.19, 0.42,      -0.03, 0.26], purple]);
+    // heartTriangles.push([ [0.4, 0.0,     0.1, 0.0,     0.0, 0.1], purple]);
     // Add more triangles to complete the heart shape...
 
     return heartTriangles;
@@ -276,10 +298,6 @@ function createDrawing() {
         });
     }    
 
-    // Adding this just to show how to use the functions, not actually functional without proper implementation
-    rotationAngle = 45; // Rotate by 45 degrees
-    translation = [0.2, 0.1]; // Translate right and up
-    scale = 1.5; // Increase size by 50%
     renderHeart(); // Call to render the heart with transformations
 }
 

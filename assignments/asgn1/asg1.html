@@ -10,13 +10,27 @@ Notes to Grader: n/a
     <head>
         <meta charset="utf-8" />
         <title>Assignment 1: Paint</title>
+        <style>#canvas-container {
+            position: relative;
+        }
+        
+        #overlayImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.5; /* Adjust opacity as needed */
+            pointer-events: none; /* This ensures that click events pass through to the canvas */
+        }
+        </style>
     </head>
 
     <body onload="main()">
-        <canvas id="webgl" width="400" height="400">
-        Please use the browser supporting "canvas".
-        </canvas>
-        <p>
+        <div id="canvas-container" style="position: relative;">
+            <img id="overlayImage" src="haert400.jpg" style="position: absolute; top: 0; left: 0; opacity: 0.5; pointer-events: none;">
+            <canvas id="webgl" width="400" height="400">
+                Please use the browser supporting "canvas".
+            </canvas>
+        </div>        
         
         <p id="numdot"> XXX </p>
         
@@ -67,6 +81,7 @@ Notes to Grader: n/a
         <script src="triangle.js"></script>
         <script src="circle.js"></script>
         <script src="asg1.js"></script>
+        
 
     </body>
 </html>
