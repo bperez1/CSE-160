@@ -83,13 +83,15 @@ function addActionsForHtmlUI(){
     // Button Events
     document.getElementById('green').onclick = function() { g_selectedColor = [0.0, 1.0, 0.0, 1.0];};
     document.getElementById('red').onclick = function() { g_selectedColor = [1.0, 0.0, 0.0, 1.0];};
-    document.getElementById('clearButton').onclick = function() { g_shapesList = []; renderAllShapes(); };
+    document.getElementById('clearButton').onclick = clearCanvas;
 
     document.getElementById('pointButton').onclick = function() { g_selectedType=POINT; };
     document.getElementById('triButton').onclick = function() { g_selectedType=TRIANGLE; };
     document.getElementById('circleButton').onclick = function() { g_selectedType=CIRCLE; };
 
     document.getElementById('drawingButton').onclick = createDrawing;
+    document.getElementById('toggleOverlayButton').onclick = toggleOverlay;
+    document.getElementById('toggleCoordsListButton').onclick = toggleCoordsList;
 
     // Color Slider Events
     document.getElementById('redSlide').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/100; });
@@ -98,6 +100,24 @@ function addActionsForHtmlUI(){
 
     // Size Slider Events
     document.getElementById('sizeSlide').addEventListener('mouseup', function() { g_selectedSize = this.value; });
+}
+
+// Clears the shapes and the coordinates list
+function clearCanvas() {
+    g_shapesList = []; // Clear the shapes array
+    g_clickedPoints = []; // Clear the clicked points array
+    updateClickedCoordinatesList(); // Update the coordinates list display
+    renderAllShapes(); // Re-render the canvas
+}
+
+function toggleOverlay() {
+    var overlayImage = document.getElementById('overlayImage');
+    overlayImage.style.display = overlayImage.style.display === 'block' ? 'none' : 'block';
+}
+
+function toggleCoordsList() {
+    var coordsList = document.getElementById('coordinatesList');
+    coordsList.style.display = coordsList.style.display === 'block' ? 'none' : 'block';
 }
 
 function main() {
@@ -190,6 +210,19 @@ function updateClickedCoordinatesList() {
     document.getElementById('coordinatesList').innerHTML = listHtml;
 }
 
+
+// Extract the event click and return it in WebGL coordinates
+function convertCoordinatesEventToGL(ev) {
+  var x = ev.clientX; // x coordinate of a mouse pointer
+  var y = ev.clientY; // y coordinate of a mouse pointer
+  var rect = ev.target.getBoundingClientRect();
+
+  x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
+  y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
+
+  return([x,y]);
+}
+
 function convertCoordinatesEventToGL2(ev) {
     var x = ev.clientX; // x in browser space
     var y = ev.clientY; // y in browser space
@@ -204,19 +237,6 @@ function convertCoordinatesEventToGL2(ev) {
     y = 1 - (y / rect.height) * 2;
 
     return [x, y];
-}
-2
-
-// Extract the event click and return it in WebGL coordinates
-function convertCoordinatesEventToGL(ev) {
-  var x = ev.clientX; // x coordinate of a mouse pointer
-  var y = ev.clientY; // y coordinate of a mouse pointer
-  var rect = ev.target.getBoundingClientRect();
-
-  x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
-  y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
-
-  return([x,y]);
 }
 
 // Draw every shape that is supposed to be on the canvas
@@ -257,15 +277,55 @@ function createHeartShape() {
     let purple = [0.63, 0.13, 0.94, 1.0]
     let red = [0.8, 0.0, 0.1, 1.0]
 
-    let coord1 = [-0.54, 0.46,  155/399,121/399, 190/399,149/399];
-    let triangle1 = [0.29,  0.37,   0.39, 0.3,  0.47, 0.37];
+    let triangle1 = [-0.83, 0.23,   -0.63, 0.40,  -0.43, 0.24];
+    let triangle2 = [-0.63, 0.40,   -0.44, 0.24,  -0.23, 0.40];
+    let triangle3 = [-0.23, 0.40,   -0.44, 0.24,  -0.04, 0.25];
+    let triangle4 = [-0.04, 0.25,    0.38, 0.27,   0.19, 0.42];
+    let triangle5 = [0.19, 0.42,     0.38, 0.27,   0.58, 0.43];
+    let triangle6 = [0.38, 0.27,   0.57, 0.43,  0.79, 0.29];
+    let triangle7 = [-0.83, 0.23,   -0.63, 0.08,  -0.43, 0.24];
+    let triangle8 = [0.39, 0.27,    0.79, 0.29,     0.59, 0.11];
+    let triangle9 = [-0.83, 0.23, -0.62, 0.09, -0.82, -0.06];
+    let triangle10 = [0.59, 0.11, 0.78, 0.29, 0.79, -0.03];
+    let triangle11 = [-0.82, -0.06, -0.62, 0.09, -0.43, -0.06];
+    let triangle12 = [0.39, -0.04, 0.59, 0.11, 0.79, -0.03];
+    let triangle13 = [-0.82, -0.06, -0.61, -0.21, -0.43, -0.06];
+    let triangle14 = [0.39, -0.04, 0.58, -0.20, 0.78, -0.03];
+    let triangle15 = [-0.61, -0.21, -0.43, -0.06, -0.23, -0.21];
+    let triangle16 = [0.40, -0.04, 0.19, -0.20, 0.58, -0.20];
+    let triangle17 = [-0.61, -0.21, -0.24, -0.21, -0.42, -0.35];
+    let triangle18 = [0.19, -0.20, 0.58, -0.20, 0.38, -0.35];
+    let triangle19 = [-0.42, -0.35, -0.24, -0.205, -0.01, -0.35];
+    let triangle20 = [-0.01, -0.35, 0.19, -0.20, 0.38, -0.35];
+    let triangle21 = [-0.42, -0.35, -0.01, -0.35, -0.21, -0.51];
+    let triangle22 = [-0.01, -0.35, 0.38, -0.35, 0.18, -0.51];
+    let triangle23 = [-0.01, -0.35, -0.21, -0.51, 0.18, -0.51];
+    let triangle24 = [-0.01, -0.66, -0.21, -0.51, 0.18, -0.51];
     
-    // heartTriangles.push([triangle1, red]);
-    heartTriangles.push([[-0.02, 0.25,    -0.19, 0.41,      -0.37, 0.26], purple]);
-    heartTriangles.push([[0.19, 0.42,    -0.03, 0.26,      0.39, 0.27], purple]);
-    heartTriangles.push([[-0.03, 0.26,    0.19, 0.42,      -0.03, 0.26], purple]);
-    // heartTriangles.push([ [0.4, 0.0,     0.1, 0.0,     0.0, 0.1], purple]);
-    // Add more triangles to complete the heart shape...
+    heartTriangles.push([triangle1, purple]);
+    heartTriangles.push([triangle2, red]);
+    heartTriangles.push([triangle3, purple]);
+    heartTriangles.push([triangle4, purple]);
+    heartTriangles.push([triangle5, red]);
+    heartTriangles.push([triangle6, purple]);
+    heartTriangles.push([triangle7, red]);
+    heartTriangles.push([triangle8, red]);
+    heartTriangles.push([triangle9, purple]);
+    heartTriangles.push([triangle10, purple]);
+    heartTriangles.push([triangle11, red]);
+    heartTriangles.push([triangle12, red]);
+    heartTriangles.push([triangle13, purple]);
+    heartTriangles.push([triangle14, purple]);
+    heartTriangles.push([triangle15, red]);
+    heartTriangles.push([triangle16, red]);
+    heartTriangles.push([triangle17, purple]);
+    heartTriangles.push([triangle18, purple]);
+    heartTriangles.push([triangle19, red]);
+    heartTriangles.push([triangle20, red]);
+    heartTriangles.push([triangle21, purple]);
+    heartTriangles.push([triangle22, purple]);
+    heartTriangles.push([triangle23, red]);
+    heartTriangles.push([triangle24, purple]);
 
     return heartTriangles;
 }

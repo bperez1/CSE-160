@@ -15,6 +15,7 @@ Notes to Grader: n/a
         }
         
         #overlayImage {
+            display: none; /* Hide the image by default */
             position: absolute;
             top: 0;
             left: 0;
@@ -34,7 +35,7 @@ Notes to Grader: n/a
         
         <p id="numdot"> XXX </p>
         
-        <p>Coordinates: <span id="coordinatesDisplay">None</span></p>
+        <p>Pixel Coordinates: <span id="coordinatesDisplay">None</span></p>
 
         <!-- color buttons -->
         <p>
@@ -53,6 +54,13 @@ Notes to Grader: n/a
         <!-- create drawing -->
         <p>
         <button type="button" id="drawingButton">Drawing</button>
+        <button type="button" id="toggleOverlayButton">Toggle Overlay</button>
+
+
+        <!-- Toggle Coordinates List Button -->
+        <p>
+        <button type="button" id="toggleCoordsListButton">Toggle Coords List</button>
+
         
         <!-- sliders for color-->
         <p>
@@ -67,7 +75,7 @@ Notes to Grader: n/a
         Size <input type="range" min="5" max="40" value="0" class="slider" id="sizeSlide">
         <p>
 
-         <div id="coordinatesList">Clicked Coordinates:<br></div>
+        <div id="coordinatesList" style="display: none;">Clicked GL Coordinates:<br></div>
 
         
         <!-- library -->
