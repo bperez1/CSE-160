@@ -150,13 +150,14 @@ var g_shapesList = [];
 // var g_sizes  = [];
 
 function click(ev) {
+
     // Extract the event click and return it in WebGL coordinates
     let [x,y] = convertCoordinatesEventToGL(ev);
     let displayX = ((x + 1) / 2 * canvas.width).toFixed(2);
     let displayY = ((1 - y) / 2 * canvas.height).toFixed(2);
 
     let [webglX, webglY] = convertCoordinatesEventToGL2(ev);
-
+    
     // Store the WebGL coordinates in the global array
     g_clickedPoints.push({ x: webglX, y: webglY });
 
@@ -164,38 +165,26 @@ function click(ev) {
     updateClickedCoordinatesList();
 
     // Create and store the new point
-    let point;
-    if(g_selectedType==POINT){
-        point = new Point();
-    } else if (g_selectedType==TRIANGLE){
-        point = new Triangle();
-    } else{
-        point = new Circle();
-    }
-    point.position = [x,y];
-    point.color = g_selectedColor.slice();
-    point.size = g_selectedSize;
-    g_shapesList.push(point);
+    let shape;
+    shapeParse(shape, [x,y]);
   
-    // // Store the coordinates to g_points array
-    // g_points.push([x, y]);
-  
-    // // Store the color to g_colors array
-    // g_colors.push(g_selectedColor.slice());
-
-    // g_sizes.push(g_selectedSize);
-//   // Store the coordinates to g_points array
-//   if (x >= 0.0 && y >= 0.0) {      // First quadrant
-//     g_colors.push([1.0, 0.0, 0.0, 1.0]);  // Red
-//   } else if (x < 0.0 && y < 0.0) { // Third quadrant
-//     g_colors.push([0.0, 1.0, 0.0, 1.0]);  // Green
-//   } else {                         // Others
-//     g_colors.push([1.0, 1.0, 1.0, 1.0]);  // White
-//   }
-
     // Draw every shape that is supposed to be on the canvas
     renderAllShapes();  
     updateCoordinateDisplay(displayX, displayY);
+}
+
+function shapeParse(shape, [x,y]){
+    if(g_selectedType==POINT){
+        shape = new Point();
+    } else if (g_selectedType==TRIANGLE){
+        shape = new Triangle();
+    } else{
+        shape = new Circle();
+    }
+    shape.position = [x,y];
+    shape.color = g_selectedColor.slice();
+    shape.size = g_selectedSize;
+    g_shapesList.push(shape);
 }
 
 function updateCoordinateDisplay(x, y) {
