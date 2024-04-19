@@ -6,9 +6,14 @@
     <title>CSE 160 Assignments</title>
     <style>
         iframe {
-            width: 100%;
+            width: 100%; /* Adjust width to 100% of the parent container */
+            height: 500px; /* Initial height, but JavaScript will adjust this */
             border: none; /* Removes the default iframe border */
             overflow: hidden; /* Prevent scrollbars */
+        }
+        #assignmentFrame {
+            width: 100%; /* Ensure the iframe takes full width */
+            min-height: 500px; /* Minimum height to start with */
         }
     </style>
 </head>
@@ -27,9 +32,17 @@
     <script>
         function resizeIframe(iframe) {
             try {
+                // Access contentWindow and document of the iframe
+                const doc = iframe.contentWindow.document;
+
                 // Adjust the height of the iframe to match the content
-                if(iframe.contentWindow.document.body) {
-                    iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+                if(doc.body) {
+                    iframe.style.height = doc.body.scrollHeight + 'px'; // Adjust height based on scrollHeight
+                }
+
+                // Adjust the width of the iframe to match the content width
+                if(doc.documentElement) {
+                    iframe.style.width = doc.documentElement.scrollWidth + 'px'; // Adjust width based on scrollWidth
                 }
             } catch (e) {
                 console.error('Error resizing iframe:', e);
