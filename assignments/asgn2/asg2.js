@@ -233,10 +233,6 @@ function wiggleAngle(time, amplitude, frequency) {
     return amplitude * Math.sin(frequency * time);
 }
 
-function runningHamster(){
-    g_baseAnimation = true;
-}
-
 function pokeAnimation(){
     if(g_pokeAnimation){
         g_pokeAnimation = false;
