@@ -10,18 +10,35 @@ Notes to Grader: n/a
     <head>
         <meta charset="utf-8" />
         <title>Assignment 2: Blocky 3D Animal</title>
-        <style>#canvas-container {
-            position: relative;
-        }
-        </style>
+        <style>
+            #canvas-container {
+                display: flex; /* Continues to use flexbox */
+                align-items: flex-start; /* Align items to the top rather than center */
+                justify-content: flex-start; /* Align items to the left */
+            }
+            #webgl {
+                width: 800px; /* Width set in CSS, consider moving to HTML attribute if blurriness persists */
+                height: 800px; /* Height set in CSS, consider moving to HTML attribute if blurriness persists */
+                margin-right: 20px; /* Keeps space between the canvas and the image */
+            }
+            img {
+                max-width: 400px; /* Adjust as needed */
+                height: auto; /* Keeps the aspect ratio intact */
+            }
+        </style>              
     </head>
 
     <body onload="main()">
-        <div id="canvas-container" style="position: relative;">
+        <div id="canvas-container">
             <canvas id="webgl" width="800" height="800">
                 Please use the browser supporting "canvas".
             </canvas>
-        </div>        
+            <figure>
+                <img src="jose.png" alt="My hamster, Jose">
+                <figcaption>My hamster, José</figcaption>
+            </figure>
+        </div>
+            
 
         <!-- library -->
         <script src="lib/webgl-utils.js"></script>
