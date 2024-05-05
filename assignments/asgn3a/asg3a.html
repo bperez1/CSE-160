@@ -9,26 +9,31 @@ Notes to Grader: n/a
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Assignment 2: Blocky 3D Animal</title>
-        <p>Clicking down on the canvas will allow you to rotate the rendered objects,<p>
+        <title>Assignment 3a: Virtual World</title>
+        <p>Clicking down on the canvas will allow you to move the camera like you would in an FPS,<p>
+            ctrl-click does the same thing except it's a toggle that locks you into the canvas, <p>
+            alt-click allows you to rotate the rendered objects,<p>
             and pressing shift-click triggers the poke animation for the hamster. <P>
+            Additionally, you can also move around the camera using W,A,S,D for directional movement, <p>
+            Q and E for panning left and right, <p>
+            and R and F for moving up and down. <p>
             </p>
-        <style>
-            #canvas-container {
-                display: flex; /* Continues to use flexbox */
-                align-items: flex-start; /* Align items to the top rather than center */
-                justify-content: flex-start; /* Align items to the left */
-            }
-            #webgl {
-                width: 800px; /* Width set in CSS, consider moving to HTML attribute if blurriness persists */
-                height: 800px; /* Height set in CSS, consider moving to HTML attribute if blurriness persists */
-                margin-right: 20px; /* Keeps space between the canvas and the image */
-            }
-            img {
-                max-width: 400px; /* Adjust as needed */
-                height: auto; /* Keeps the aspect ratio intact */
-            }
-        </style>              
+            <style>
+                #canvas-container {
+                    display: flex; /* Continues to use flexbox */
+                    align-items: flex-start; /* Align items to the top rather than center */
+                    justify-content: flex-start; /* Align items to the left */
+                }
+                #webgl {
+                    width: 800px; /* Width set in CSS, consider moving to HTML attribute if blurriness persists */
+                    height: 800px; /* Height set in CSS, consider moving to HTML attribute if blurriness persists */
+                    margin-right: 20px; /* Keeps space between the canvas and the image */
+                }
+                img {
+                    max-width: 400px; /* Adjust as needed */
+                    height: auto; /* Keeps the aspect ratio intact */
+                }
+            </style>  
     </head>
 
     <body onload="main()">
@@ -40,8 +45,7 @@ Notes to Grader: n/a
                 <img src="jose.png" alt="My hamster, Jose">
                 <figcaption>My hamster, José</figcaption>
             </figure>
-        </div>
-            
+        </div>     
 
         <!-- library -->
         <script src="lib/webgl-utils.js"></script>
@@ -57,7 +61,8 @@ Notes to Grader: n/a
         <script src="cube.js"></script>
         <script src="sphere.js"></script>
         <script src="triangularprism.js"></script>
-        <script src="asg2.js"></script>
+        <script src="camera.js"></script>
+        <script src="asg3a.js"></script>
         
         <p id="numdot"> XXX </p>
 
