@@ -11,9 +11,8 @@
       Switch between cameras with 1, 2, and 3, and use WASD to move the camera
     </p>
     <p>
-      drag the mouse to look around, and use the scroll wheel to zoom in and out
+      Drag the mouse to look around, and use the scroll wheel to zoom in and out
     </p>
-    <p></p>
     <p id="numdot">XXX</p>
     <style>
       html,
@@ -23,11 +22,11 @@
         width: 100%;
       }
       #c {
-        width: 45%; /* Reduced width */
-        height: 65%; /* Reduced height */
+        width: 50%;
+        height: 40vh; /* Full viewport height */
         display: block;
-        margin: auto; /* Center the canvas */
-        margin-top: 10%; /* Adjust top margin as needed */
+        margin: auto;
+        margin-top: 0;
       }
       /* CSS for the loading screen */
       #loading {
@@ -48,10 +47,10 @@
       }
       #loading .progressbar {
         height: 1em;
-        background-color: white; /* Color of the progress bar */
-        transform-origin: left center; /* makes sure scaling happens from the left */
-        transform: scaleX(0); /* Start with no visible progress */
-        transition: transform 0.5s ease; /* Smooth transition for progress animation */
+        background-color: white;
+        transform-origin: left center;
+        transform: scaleX(0);
+        transition: transform 0.5s ease;
       }
     </style>
   </head>

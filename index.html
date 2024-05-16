@@ -29,11 +29,13 @@
       }
       iframe {
         width: 100%;
+        height: 100vh; /* Full viewport height */
         border: none;
         display: block;
       }
       #assignmentFrame {
         width: 100%;
+        height: 100vh; /* Full viewport height */
         border: none;
       }
     </style>
@@ -118,6 +120,8 @@
           iframe.style.height = "500px"; // Reduce height to improve performance
           iframe.style.width = "500px"; // Reduce width to improve performance
         } else {
+          iframe.style.height = "100vh"; // Restore default height
+          iframe.style.width = "100%"; // Restore default width
           iframe.removeAttribute("loading");
         }
       }

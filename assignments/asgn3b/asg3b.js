@@ -532,26 +532,23 @@ function updateCameraBasedOnKeys(camera) {
     }
 
     if (keyStates['b']) {
-        console.log("adding block")
-        worldStructure = addBlock(worldStructure, camera);
+        worldStructure = addBlockWithDelay(worldStructure, camera);
         requestUpdate();
-        console.log(worldStructure);
     }
     if (keyStates['n']) {
-        console.log("removing block")
-        worldStructure = removeBlock(worldStructure, camera);
+        worldStructure = removeBlockWithDelay(worldStructure, camera);
         requestUpdate();
-        console.log(worldStructure);
     }
 
     if (controlEnabled) {
-        camera.updateVerticalAt(1.5)
+        camera.updateVerticalAt(1.5);
     }
 
     if (keyStates['w'] || keyStates['s'] || keyStates['a'] || keyStates['d'] || keyStates['q'] || keyStates['e'] || keyStates['r'] || keyStates['f']) {
         updateCameraUniforms(camera);
     }
 }
+
 
 function printArraySize(array) {
     if (array.length === 0 || !Array.isArray(array[0])) {
@@ -678,6 +675,30 @@ function initializeWorldStructure() {
 function convertToWorldArrayCoords(worldSize, coord) {
     let halfSize = worldSize / 2;
     return Math.floor(coord + halfSize);
+}
+
+
+let canPlaceBlock = true;
+let canRemoveBlock = true;
+const blockPlaceDelay = 500; // Delay in milliseconds
+const blockRemoveDelay = 500; // Delay in milliseconds
+
+function addBlockWithDelay(world, camera) {
+    if (canPlaceBlock) {
+        canPlaceBlock = false;
+        world = addBlock(world, camera);
+        setTimeout(() => canPlaceBlock = true, blockPlaceDelay);
+    }
+    return world;
+}
+
+function removeBlockWithDelay(world, camera) {
+    if (canRemoveBlock) {
+        canRemoveBlock = false;
+        world = removeBlock(world, camera);
+        setTimeout(() => canRemoveBlock = true, blockRemoveDelay);
+    }
+    return world;
 }
 
 
@@ -1318,3 +1339,4 @@ function checkCornerHeightsAndRemovePuzzle(world) {
 
     return world;
 }
+
