@@ -1,56 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CSE 160 Assignments</title>
     <style>
-        iframe {
-            width: 100%; /* Adjust width to 100% of the parent container */
-            height: 500px; /* Initial height, but JavaScript will adjust this */
-            border: none; /* Removes the default iframe border */
-            overflow: hidden; /* Prevent scrollbars */
-        }
-        #assignmentFrame {
-            width: 100%; /* Ensure the iframe takes full width */
-            min-height: 500px; /* Minimum height to start with */
-        }
+      iframe {
+        width: 100%; /* Adjust width to 100% of the parent container */
+        height: 500px; /* Initial height, but JavaScript will adjust this */
+        border: none; /* Removes the default iframe border */
+        overflow: hidden; /* Prevent scrollbars */
+      }
+      #assignmentFrame {
+        width: 100%; /* Ensure the iframe takes full width */
+        min-height: 500px; /* Minimum height to start with */
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Welcome to Brian Perez's CSE 160 Assignments</h1>
     <p>Select an assignment to view:</p>
     <ul>
-        <li><a href="assignments/asgn0/asg0.html" target="assignmentFrame">Assignment 0</a></li>
-        <li><a href="assignments/asgn1/asg1.html" target="assignmentFrame">Assignment 1</a></li>
-        <li><a href="assignments/asgn5a/asg5a.html" target="assignmentFrame">Assignment 5a</a></li>
-        <li><a href="assignments/asgn2/asg2.html" target="assignmentFrame">Assignment 2</a></li>
-        <li><a href="assignments/asgn3a/asg3a.html" target="assignmentFrame">Assignment 3a</a></li>
-        <li><a href="assignments/asgn3b/asg3b.html" target="assignmentFrame">Assignment 3b</a></li>
+      <li>
+        <a href="assignments/asgn0/asg0.html" target="assignmentFrame"
+          >Assignment 0</a
+        >
+      </li>
+      <li>
+        <a href="assignments/asgn1/asg1.html" target="assignmentFrame"
+          >Assignment 1</a
+        >
+      </li>
+      <li>
+        <a href="assignments/asgn5a/asg5a.html" target="assignmentFrame"
+          >Assignment 5a</a
+        >
+      </li>
+      <li>
+        <a href="assignments/asgn2/asg2.html" target="assignmentFrame"
+          >Assignment 2</a
+        >
+      </li>
+      <li>
+        <a href="assignments/asgn3a/asg3a.html" target="assignmentFrame"
+          >Assignment 3a</a
+        >
+      </li>
+      <li>
+        <a href="assignments/asgn3b/asg3b.html" target="assignmentFrame"
+          >Assignment 3b</a
+        >
+      </li>
+      <li>
+        <a href="assignments/asgn3b/asg5b.html" target="assignmentFrame"
+          >Assignment 5b</a
+        >
+      </li>
     </ul>
 
     <!-- Embedding asg0.html within the page -->
-    <iframe src="assignments/asgn0/asg0.html" name="assignmentFrame" id="assignmentFrame" onload="resizeIframe(this)"></iframe>
+    <iframe
+      src="assignments/asgn0/asg0.html"
+      name="assignmentFrame"
+      id="assignmentFrame"
+      onload="resizeIframe(this)"
+    ></iframe>
 
     <script>
-        function resizeIframe(iframe) {
-            try {
-                // Access contentWindow and document of the iframe
-                const doc = iframe.contentWindow.document;
+      function resizeIframe(iframe) {
+        try {
+          // Access contentWindow and document of the iframe
+          const doc = iframe.contentWindow.document;
 
-                // Adjust the height of the iframe to match the content
-                if(doc.body) {
-                    iframe.style.height = doc.body.scrollHeight + 'px'; // Adjust height based on scrollHeight
-                }
+          // Adjust the height of the iframe to match the content
+          if (doc.body) {
+            iframe.style.height = doc.body.scrollHeight + "px"; // Adjust height based on scrollHeight
+          }
 
-                // Adjust the width of the iframe to match the content width
-                if(doc.documentElement) {
-                    iframe.style.width = doc.documentElement.scrollWidth + 'px'; // Adjust width based on scrollWidth
-                }
-            } catch (e) {
-                console.error('Error resizing iframe:', e);
-            }
+          // Adjust the width of the iframe to match the content width
+          if (doc.documentElement) {
+            iframe.style.width = doc.documentElement.scrollWidth + "px"; // Adjust width based on scrollWidth
+          }
+        } catch (e) {
+          console.error("Error resizing iframe:", e);
         }
+      }
     </script>
-</body>
+  </body>
 </html>

@@ -707,7 +707,7 @@ function main() {
       const z = distance * Math.sin(angle); // Scaled oval radius in z
 
       // Position the triangle closer to the surface
-      triangleMesh.position.set(x/1.35, y, z/1.005);
+      triangleMesh.position.set(x / 1.35, y, z / 1.005);
 
       // Randomize rotation
       triangleMesh.rotation.set(
