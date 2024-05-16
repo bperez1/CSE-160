@@ -1,75 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>Assignment 3b: Virtual World</title>
     <style>
-        #canvas-container {
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-        }
-        #webgl {
-            width: 800px;
-            height: 800px;
-            margin-right: 20px;
-        }
-        img {
-            max-width: 400px;
-            height: auto;
-        }
-        /* Popup CSS */
-        .popup {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-        }
-        .popup-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>  
-</head>
+      #canvas-container {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+      #webgl {
+        width: 400px;
+        height: 400px;
+        margin-right: 20px;
+      }
+      img {
+        max-width: 400px;
+        height: auto;
+      }
+      /* Popup CSS */
+      .popup {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      .popup-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
 
-<body onload="main()">
+  <body onload="main()">
     <div id="canvas-container">
-        <canvas id="webgl" width="800" height="800">
-            Please use the browser supporting "canvas".
-        </canvas>
-        <figure>
-            <img src="jose.png" alt="My hamster, Jose">
-            <figcaption>My hamster, José</figcaption>
-        </figure>
-    </div>     
+      <canvas id="webgl" width="800" height="800">
+        Please use the browser supporting "canvas".
+      </canvas>
+      <figure>
+        <img src="jose.png" alt="My hamster, Jose" />
+        <figcaption>My hamster, José</figcaption>
+      </figure>
+    </div>
 
     <!-- Popup HTML -->
     <div id="goalPopup" class="popup">
-        <div class="popup-content">
-            <span class="close">&times;</span>
-            <p>The goal is to free José the hamster by going to each corner and repairing the colored towers. Once all towers are repaired, a path will open into the closed-off area in the center where José is trapped.</p>
-        </div>
+      <div class="popup-content">
+        <span class="close">&times;</span>
+        <p>
+          The goal is to free José the hamster by going to each corner and
+          repairing the colored towers. Once all towers are repaired, a path
+          will open into the closed-off area in the center where José is
+          trapped.
+        </p>
+      </div>
     </div>
 
     <!-- library -->
@@ -88,70 +93,116 @@
     <script src="triangularprism.js"></script>
     <script src="camera.js"></script>
     <script src="asg3b.js"></script>
-    
-    <p id="numdot"> XXX </p>
+
+    <p id="numdot">XXX</p>
 
     <!-- Sliders for leg rotating -->
     <p>
-    Upper Leg <input type="range" min="-20" max="20" value="5" class="slider" id="upperLegSlide">
-    <button type="button" id="animationUpperLegOnButton">ON</button>
-    <button type="button" id="animationUpperLegOffButton">OFF</button>
-    
-    <p>
-    Lower Leg <input type="range" min="-20" max="15" value="5" class="slider" id="lowerLegSlide">
-    <button type="button" id="animationLowerLegOnButton">ON</button>
-    <button type="button" id="animationLowerLegOffButton">OFF</button>
-
-    <p>
-    Foot <input type="range" min="-20" max="20" value="5" class="slider" id="footSlide">
-    <button type="button" id="animationFootOnButton">ON</button>
-    <button type="button" id="animationFootOffButton">OFF</button>
-
-    <p>
-    Swimming Animation
-    <button type="button" id="animationBaseOnButton">ON</button>
-    <button type="button" id="animationBaseOffButton">OFF</button>
-
-    <p>
-    X-Axis Camera Angle <input type="range" min="0" max="360" value="5" class="slider" id="angleSlide">
-    <p>  
-    <p>
-    Y-Axis Camera Angle <input type="range" min="-180" max="180" value="0" class="slider" id="yAngleSlide">
+      Upper Leg
+      <input
+        type="range"
+        min="-20"
+        max="20"
+        value="5"
+        class="slider"
+        id="upperLegSlide"
+      />
+      <button type="button" id="animationUpperLegOnButton">ON</button>
+      <button type="button" id="animationUpperLegOffButton">OFF</button>
     </p>
-    
+
+    <p>
+      Lower Leg
+      <input
+        type="range"
+        min="-20"
+        max="15"
+        value="5"
+        class="slider"
+        id="lowerLegSlide"
+      />
+      <button type="button" id="animationLowerLegOnButton">ON</button>
+      <button type="button" id="animationLowerLegOffButton">OFF</button>
+    </p>
+
+    <p>
+      Foot
+      <input
+        type="range"
+        min="-20"
+        max="20"
+        value="5"
+        class="slider"
+        id="footSlide"
+      />
+      <button type="button" id="animationFootOnButton">ON</button>
+      <button type="button" id="animationFootOffButton">OFF</button>
+    </p>
+
+    <p>
+      Swimming Animation
+      <button type="button" id="animationBaseOnButton">ON</button>
+      <button type="button" id="animationBaseOffButton">OFF</button>
+    </p>
+
+    <p>
+      X-Axis Camera Angle
+      <input
+        type="range"
+        min="0"
+        max="360"
+        value="5"
+        class="slider"
+        id="angleSlide"
+      />
+    </p>
+
+    <p></p>
+    <p>
+      Y-Axis Camera Angle
+      <input
+        type="range"
+        min="-180"
+        max="180"
+        value="0"
+        class="slider"
+        id="yAngleSlide"
+      />
+    </p>
+
     <!-- Popup script -->
     <script>
-        // Function to show the goal popup
-        function showGoalPopup() {
-            let popup = document.getElementById('goalPopup');
-            popup.style.display = 'block';
-        }
+      // Function to show the goal popup
+      function showGoalPopup() {
+        let popup = document.getElementById("goalPopup");
+        popup.style.display = "block";
+      }
 
-        // Function to hide the goal popup
-        function hideGoalPopup() {
-            let popup = document.getElementById('goalPopup');
-            popup.style.display = 'none';
-        }
+      // Function to hide the goal popup
+      function hideGoalPopup() {
+        let popup = document.getElementById("goalPopup");
+        popup.style.display = "none";
+      }
 
-        // Add event listener for 'h' key to show popup
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'h') {
-                showGoalPopup();
-            }
-        });
-
-        // Close the popup when the user clicks on <span> (x)
-        document.querySelector('.close').onclick = function() {
-            hideGoalPopup();
+      // Add event listener for 'h' key to show popup
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "h") {
+          showGoalPopup();
         }
+      });
 
-        // Close the popup when the user clicks anywhere outside of the popup
-        window.onclick = function(event) {
-            let popup = document.getElementById('goalPopup');
-            if (event.target === popup) {
-                hideGoalPopup();
-            }
+      // Close the popup when the user clicks on <span> (x)
+      document.querySelector(".close").onclick = function () {
+        hideGoalPopup();
+      };
+
+      // Close the popup when the user clicks anywhere outside of the popup
+      window.onclick = function (event) {
+        let popup = document.getElementById("goalPopup");
+        if (event.target === popup) {
+          hideGoalPopup();
         }
+      };
     </script>
-</body>
+  </body>
 </html>

@@ -5,15 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CSE 160 Assignments</title>
     <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 20px;
+      }
+      p {
+        text-align: center;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        text-align: center;
+      }
+      li {
+        display: inline;
+        margin-right: 15px;
+      }
       iframe {
-        width: 100%; /* Adjust width to 100% of the parent container */
-        height: 500px; /* Initial height, but JavaScript will adjust this */
-        border: none; /* Removes the default iframe border */
-        overflow: hidden; /* Prevent scrollbars */
+        width: 100%;
+        border: none;
+        display: block;
       }
       #assignmentFrame {
-        width: 100%; /* Ensure the iframe takes full width */
-        min-height: 500px; /* Minimum height to start with */
+        width: 100%;
+        border: none;
       }
     </style>
   </head>
@@ -58,7 +79,6 @@
       </li>
     </ul>
 
-    <!-- Embedding asg0.html within the page -->
     <iframe
       src="assignments/asgn0/asg0.html"
       name="assignmentFrame"
@@ -69,22 +89,42 @@
     <script>
       function resizeIframe(iframe) {
         try {
-          // Access contentWindow and document of the iframe
           const doc = iframe.contentWindow.document;
-
-          // Adjust the height of the iframe to match the content
-          if (doc.body) {
-            iframe.style.height = doc.body.scrollHeight + "px"; // Adjust height based on scrollHeight
-          }
-
-          // Adjust the width of the iframe to match the content width
-          if (doc.documentElement) {
-            iframe.style.width = doc.documentElement.scrollWidth + "px"; // Adjust width based on scrollWidth
-          }
+          iframe.style.height = doc.documentElement.scrollHeight + "px";
         } catch (e) {
           console.error("Error resizing iframe:", e);
         }
       }
+
+      window.addEventListener("resize", function () {
+        const iframe = document.getElementById("assignmentFrame");
+        resizeIframe(iframe);
+      });
+
+      const links = document.querySelectorAll("ul li a");
+      links.forEach((link) => {
+        link.addEventListener("click", function () {
+          setTimeout(() => {
+            const iframe = document.getElementById("assignmentFrame");
+            resizeIframe(iframe);
+          }, 100);
+        });
+      });
+
+      function optimize3b() {
+        const iframe = document.getElementById("assignmentFrame");
+        if (iframe.src.includes("asgn3b")) {
+          iframe.setAttribute("loading", "lazy");
+          iframe.style.height = "480px"; // Reduce height to improve performance
+          iframe.style.width = "640px"; // Reduce width to improve performance
+        } else {
+          iframe.removeAttribute("loading");
+        }
+      }
+
+      links.forEach((link) => {
+        link.addEventListener("click", optimize3b);
+      });
     </script>
   </body>
 </html>
