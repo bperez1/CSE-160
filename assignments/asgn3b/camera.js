@@ -3,7 +3,7 @@ class Camera {
         this.fov = 60;
         this.aspect = canvas.width / canvas.height;
         this.near = 0.1;
-        this.far = 50;
+        this.far = 100;
         this.eye = new Vector3([14, 1.5, 11.6]);  // Initial eye position
         this.at = new Vector3([13.42, 1.5, 14.7]); // Initial at position
         this.up = new Vector3([0, 1, 0]);    // Standard up vector

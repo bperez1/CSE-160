@@ -501,7 +501,7 @@ function initEventHandlers(camera) {
 }
 
 function updateCameraBasedOnKeys(camera) {
-    const speed = 1;
+    const speed = 0.1;
     const angle = 5 / 4;
 
     if (keyStates['w']) {

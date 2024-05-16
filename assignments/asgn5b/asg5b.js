@@ -35,18 +35,22 @@ function main() {
   controls.dampingFactor = 0.1;
 
   // Orthographic camera setup
-  const multiplier = 1.81;
+  function createOrUpdateFlatCamera(camera, aspectRatio, multiplier = 2) {
+    camera.left = (-10 * aspectRatio * multiplier) / 2;
+    camera.right = (10 * aspectRatio * multiplier) / 2;
+    camera.top = (10 * multiplier) / 2;
+    camera.bottom = (-10 * multiplier) / 2;
+    camera.near = 1;
+    camera.far = 5000; // Increase far clipping plane to ensure the scene is within view
+    camera.updateProjectionMatrix();
+    camera.position.set(0, 8, 10);
+    camera.lookAt(new THREE.Vector3(0, 7, 0)); // Adjust to look at origin if needed
+  }
+
+  // Usage:
   const aspectRatio = window.innerWidth / window.innerHeight;
-  const flatCamera = new THREE.OrthographicCamera(
-    -10 * aspectRatio * multiplier,
-    10 * aspectRatio * multiplier,
-    10 * multiplier,
-    -10 * multiplier,
-    1,
-    5000 // Increase far clipping plane to ensure the scene is within view
-  );
-  flatCamera.position.set(0, 10, 10);
-  flatCamera.lookAt(new THREE.Vector3(0, 9, 0)); // Adjust to look at origin if needed
+  const flatCamera = new THREE.OrthographicCamera();
+  createOrUpdateFlatCamera(flatCamera, aspectRatio);
 
   // Add a grid helper to the scene to show the camera's view
   // const gridHelper = new THREE.GridHelper(100, 100);
@@ -103,6 +107,8 @@ function main() {
     } else if (mode === CAMERA_MODES.FLAT) {
       camera = flatCamera;
       controls.dispose();
+      const aspectRatio = window.innerWidth / window.innerHeight;
+      createOrUpdateFlatCamera(flatCamera, aspectRatio);
     } else if (mode === CAMERA_MODES.ORBIT) {
       controls.dispose();
       camera = orbitCamera;
@@ -874,23 +880,16 @@ function main() {
       renderer.setPixelRatio(window.devicePixelRatio);
 
       const aspect = canvas.clientWidth / canvas.clientHeight;
-      if (
+      if (currentCameraMode === CAMERA_MODES.FLAT) {
+        createOrUpdateFlatCamera(flatCamera, aspect);
+      } else if (
         currentCameraMode === CAMERA_MODES.FREE ||
         currentCameraMode === CAMERA_MODES.ORBIT
       ) {
         freeCamera.aspect = aspect;
         freeCamera.updateProjectionMatrix();
-
         orbitCamera.aspect = aspect;
         orbitCamera.updateProjectionMatrix();
-      }
-
-      if (currentCameraMode === CAMERA_MODES.FLAT) {
-        flatCamera.left = (-10 * aspect) / 2;
-        flatCamera.right = (10 * aspect) / 2;
-        flatCamera.top = 10 / 2;
-        flatCamera.bottom = -10 / 2;
-        flatCamera.updateProjectionMatrix();
       }
     }
     return needResize;
@@ -898,6 +897,7 @@ function main() {
 
   // animation loop
   function render(time) {
+    var startTime = performance.now();
     time *= 0.001;
 
     if (resizeRendererToDisplaySize(renderer)) {
@@ -923,6 +923,27 @@ function main() {
 
     renderer.render(scene, camera);
     requestAnimationFrame(render);
+
+    var duration = performance.now() - startTime;
+    sendTextToHTML(
+      " ms: " +
+        Math.floor(duration) +
+        " fps: " +
+        Math.floor(10000 / duration) / 10,
+      "numdot"
+    );
+    if (Math.floor(10000 / duration) / 10 <= 10) {
+      console.log("fps too low!");
+    }
+  }
+
+  function sendTextToHTML(text, htmlID) {
+    var htmlElm = document.getElementById(htmlID);
+    if (!htmlID) {
+      console.log("Failed to get " + htmlID + " from HTML");
+      return;
+    }
+    htmlElm.innerHTML = text;
   }
 
   requestAnimationFrame(render);
