@@ -59,26 +59,33 @@ var FSHADER_SOURCE = `
   uniform bool u_useSpotlight;
 
   void main() {
-    if (u_normalVisualization) {
-        gl_FragColor = vec4((v_Normal + 1.0) / 2.0, 1.0); // Normalize and visualize normal
+    vec4 color;
+    if (u_whichTexture == -3) {
+      color = vec4((v_Normal+1.0)/2.0, 1.0); // Use normal as debugging color
+    } else if (u_whichTexture == -2) {
+      color = vec4(v_Color, 1.0); // Use vertex color
+    } else if (u_whichTexture == -1) {
+      color = vec4(v_UV, 1.0, 1.0); // UV Debugging color
+    } else if (u_whichTexture == 0) {
+      color = texture2D(u_Sampler0, v_UV); // Use texture from sampler 0
+    } else if (u_whichTexture == 1) {
+      color = texture2D(u_Sampler1, v_UV); // Use texture from sampler 1
+    } else if (u_whichTexture == 2) {
+      color = texture2D(u_Sampler2, v_UV); // Use texture from sampler 2
+    } else if (u_whichTexture == 3) {
+      color = texture2D(u_Sampler3, v_UV); // Use texture from sampler 3
     } else {
-        if (u_whichTexture == -3) {
-            gl_FragColor = vec4((v_Normal+1.0)/2.0, 1.0); // Use normal as debugging color
-        } else if (u_whichTexture == -2) {
-            gl_FragColor = vec4(v_Color, 1.0); // Use vertex color
-        } else if (u_whichTexture == -1) {
-            gl_FragColor = vec4(v_UV, 1.0, 1.0); // UV Debugging color
-        } else if (u_whichTexture == 0) {
-            gl_FragColor = texture2D(u_Sampler0, v_UV); // Use texture from sampler 0
-        } else if (u_whichTexture == 1) {
-            gl_FragColor = texture2D(u_Sampler1, v_UV); // Use texture from sampler 1
-        } else if (u_whichTexture == 2) {
-            gl_FragColor = texture2D(u_Sampler2, v_UV); // Use texture from sampler 2
-        } else if (u_whichTexture == 3) {
-            gl_FragColor = texture2D(u_Sampler3, v_UV); // Use texture from sampler 3
-        } else {
-            gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0); // Error case
-        }
+      color = vec4(1.0, 0.2, 0.2, 1.0); // Error case
+    }
+
+    if (u_normalVisualization) {
+      gl_FragColor = vec4((v_Normal + 1.0) / 2.0, 1.0); // Normalize and visualize normal
+      return;
+    }
+
+    if (!u_lightOn) {
+      gl_FragColor = color;
+      return;
     }
 
     vec3 lightVector = u_lightPos - vec3(v_VertPos);
@@ -92,26 +99,26 @@ var FSHADER_SOURCE = `
     vec3 E = normalize(u_cameraPos - vec3(v_VertPos));
     float specular = pow(max(dot(R, E), 0.0), 64.0) * 0.8;
 
-    vec3 diffuse = u_lightColor * vec3(gl_FragColor) * nDotL *0.8;
-    vec3 ambient = vec3(gl_FragColor) * 0.2;
+    vec3 diffuse = u_lightColor * vec3(color) * nDotL *0.8;
+    vec3 ambient = vec3(color) * 0.2;
 
     vec3 finalColor = ambient;
 
-    if(u_lightOn){
+    if (u_lightOn) {
       finalColor += diffuse;
-      if(u_whichTexture == -2 || u_whichTexture == 2 || u_whichTexture == 3){
+      if (u_whichTexture == -2 || u_whichTexture == 2 || u_whichTexture == 3) {
         finalColor += specular;
       }
     }
 
-    if(u_useSpotlight) {
+    if (u_useSpotlight) {
       vec3 spotlightVector = u_spotlightPos - vec3(v_VertPos);
       vec3 spotlightDir = normalize(u_spotlightDir);
       float theta = dot(normalize(spotlightVector), spotlightDir);
-      if(theta > cos(radians(u_spotlightCutoff))) {
+      if (theta > cos(radians(u_spotlightCutoff))) {
         vec3 S = normalize(spotlightVector);
         float sDotN = max(dot(N, S), 0.0);
-        vec3 spotlightDiffuse = u_lightColor * vec3(gl_FragColor) * sDotN * 0.8;
+        vec3 spotlightDiffuse = u_lightColor * vec3(color) * sDotN * 0.8;
         finalColor += spotlightDiffuse;
       }
     }
@@ -918,7 +925,7 @@ function renderAllShapes() {
   var body = new Cube();
   body.setColor([0.5, 0.5, 0.5, 1.0]); // Grey
   body.matrix.translate(0, 0, 0.0);
-  body.matrix.scale(33, -0.01, 33);
+  body.matrix.scale(-33, 0.001, -33);
   body.matrix.translate(-0.5, 0, -0.5);
   body.textureNum = 1;
   body.render();
