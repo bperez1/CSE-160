@@ -2,6 +2,7 @@
 class Cube extends Shape {
     constructor(matrix) {
         super(matrix);
+        this.normalMatrix = new Matrix4();
         this.textureNum = -2;
 
         this.type = "cube";
@@ -147,6 +148,7 @@ function drawCube(color, matrix) {
     for (let i = 0; i < 6; i++) {
         let baseIndex = i * 18; // 6 vertices per face, 3 components per vertex
         let darkFactor = 1 - (0.05 * i); // Darken each subsequent face
+        darkFactor = 1.0;
         for (let j = 0; j < 6; j++) { // 6 vertices per face
             cube.colors[baseIndex + j * 3 + 0] = color[0] * darkFactor; // R
             cube.colors[baseIndex + j * 3 + 1] = color[1] * darkFactor; // G

@@ -20,10 +20,6 @@
     <p>Q and E for panning left and right,</p>
     <p>and R and F for moving up and down.</p>
     <p></p>
-    <p>
-      press H to show the goal of the game, clicking away from it or hitting the
-      x will close it
-    </p>
     <style>
       #canvas-container {
         display: none; /* Initially hide canvas container */
@@ -102,10 +98,7 @@
       <div class="popup-content">
         <span class="close">&times;</span>
         <p>
-          The goal is to free José the hamster by going to each corner and
-          repairing the colored towers. Once all towers are repaired, a path
-          will open into the closed-off area in the center where José is
-          trapped.
+          Hello!
         </p>
       </div>
     </div>
@@ -130,6 +123,160 @@
     <p id="numdot">XXX</p>
 
     <button id="toggleNormals">Toggle Normal Visualization</button>
+    <button id="toggleLight">Toggle Light</button>
+    <button id="toggleSpotlight">Toggle Spotlight/Pointlight</button>
+
+    <p>
+      Light Movement Animation
+      <button type="button" id="lightAnimationOnButton">ON</button>
+      <button type="button" id="lightAnimationOffButton">OFF</button>
+    </p>
+
+    <p>
+      Light X
+      <input
+        type="range"
+        min="-250"
+        max="500"
+        value="0"
+        class="slider"
+        id="lightSlideX"
+      />
+      Light Y
+      <input
+        type="range"
+        min="-250"
+        max="500"
+        value="100"
+        class="slider"
+        id="lightSlideY"
+      />
+      Light Z
+      <input
+        type="range"
+        min="-250"
+        max="500"
+        value="-200"
+        class="slider"
+        id="lightSlideZ"
+      />
+    </p>
+
+    <p>
+      Light Color
+      <br />
+      Red
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value="1"
+        class="slider"
+        id="lightColorRed"
+      />
+      Green
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value="1"
+        class="slider"
+        id="lightColorGreen"
+      />
+      Blue
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value="1"
+        class="slider"
+        id="lightColorBlue"
+      />
+    </p>
+
+    <!-- HTML for Sliders -->
+    <div>
+      <label for="spotlightSlideX">Spotlight Position X: </label>
+      <input
+        type="range"
+        id="spotlightSlideX"
+        min="-300"
+        max="300"
+        step="0.1"
+        value="0"
+      />
+    </div>
+    <div>
+      <label for="spotlightSlideY">Spotlight Position Y: </label>
+      <input
+        type="range"
+        id="spotlightSlideY"
+        min="-300"
+        max="300"
+        step="0.1"
+        value="0"
+      />
+    </div>
+    <div>
+      <label for="spotlightSlideZ">Spotlight Position Z: </label>
+      <input
+        type="range"
+        id="spotlightSlideZ"
+        min="-300"
+        max="300"
+        step="0.1"
+        value="0"
+      />
+    </div>
+
+    <div>
+      <label for="spotlightDirX">Spotlight Direction X: </label>
+      <input
+        type="range"
+        id="spotlightDirX"
+        min="-1"
+        max="1"
+        step="0.01"
+        value="0"
+      />
+    </div>
+    <div>
+      <label for="spotlightDirY">Spotlight Direction Y: </label>
+      <input
+        type="range"
+        id="spotlightDirY"
+        min="-1"
+        max="1"
+        step="0.01"
+        value="0"
+      />
+    </div>
+    <div>
+      <label for="spotlightDirZ">Spotlight Direction Z: </label>
+      <input
+        type="range"
+        id="spotlightDirZ"
+        min="-1"
+        max="1"
+        step="0.01"
+        value="0"
+      />
+    </div>
+
+    <div>
+      <label for="spotlightCutoff">Spotlight Cutoff: </label>
+      <input
+        type="range"
+        id="spotlightCutoff"
+        min="0"
+        max="180"
+        step="1"
+        value="20"
+      />
+    </div>
 
     <!-- Sliders for leg rotating -->
     <p>
@@ -181,7 +328,7 @@
     </p>
 
     <p>
-      X-Axis Camera Angle
+      X-Axis Global Rotation Angle
       <input
         type="range"
         min="0"
@@ -194,7 +341,7 @@
 
     <p></p>
     <p>
-      Y-Axis Camera Angle
+      Y-Axis Global Rotation Angle
       <input
         type="range"
         min="-180"

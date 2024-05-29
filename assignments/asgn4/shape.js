@@ -2,6 +2,7 @@ class Shape {
   constructor(matrix) {
     this.type = "";
     this.matrix = matrix || new Matrix4();
+    this.normalMatrix = null;
     this.vertexBuffer = null;
     this.colorBuffer = null;
     this.uvBuffer = null;
@@ -89,6 +90,9 @@ class Shape {
 
     // Set model matrix
     gl.uniformMatrix4fv(u_ModelMatrix, false, this.matrix.elements);
+
+    // Set normal matrix
+    gl.uniformMatrix4fv(u_NormalMatrix, false, this.normalMatrix.elements);
 
     // Pass normal visualization status
     gl.uniform1i(u_normalVisualization, normalVisualization);

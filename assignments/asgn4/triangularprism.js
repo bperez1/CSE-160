@@ -1,11 +1,12 @@
-// TriangularPrism.js
 class TriangularPrism extends Shape {
     constructor(matrix, color) {
         super(matrix);
+        this.normalMatrix = new Matrix4();
         this.type = "triangularPrism";
         this.baseColor = color; // Expect an array [r, g, b, a]
         this.colors = [];
         this.vertices = [];
+        this.normals = [];
         this.uv = [];
         this.textureNum = -2;
         this.generatePrism();
@@ -24,24 +25,31 @@ class TriangularPrism extends Shape {
 
         // Define faces and their color intensities
         this.addFace(bottomFrontLeft, bottomFrontRight, topFrontRight, topFrontLeft, this.modifyColor(1)); // Front face normal color
-        this.addFace(bottomFrontRight, bottomBack, topBack, topFrontRight, this.modifyColor(0.8)); // Right face darker
-        this.addFace(bottomBack, bottomFrontLeft, topFrontLeft, topBack, this.modifyColor(0.8)); // Left face darker
-        this.addTriangle(bottomFrontLeft, bottomFrontRight, bottomBack, this.modifyColor(0.9)); // Bottom triangle slightly darker
-        this.addTriangle(topFrontLeft, topFrontRight, topBack, this.modifyColor(0.9)); // Top triangle slightly darker
+        this.addFace(bottomFrontRight, bottomBack, topBack, topFrontRight, this.modifyColor(1)); // Right face
+        this.addFace(bottomBack, bottomFrontLeft, topFrontLeft, topBack, this.modifyColor(1)); // Left face
+        this.addTriangle(bottomFrontLeft, bottomFrontRight, bottomBack, this.modifyColor(1)); // Bottom triangle
+        this.addTriangle(topFrontLeft, topFrontRight, topBack, this.modifyColor(1)); // Top triangle
 
         this.vertices = new Float32Array(this.vertices);
         this.colors = new Float32Array(this.colors);
+        this.normals = new Float32Array(this.normals);
         this.uv = new Float32Array(this.uv);
     }
 
     addFace(v1, v2, v3, v4, color) {
-        // Two triangles to form a rectangle
-        this.addTriangle(v1, v2, v3, color);
-        this.addTriangle(v1, v3, v4, color);
+        let normal = this.calculateNormal(v1, v2, v3);
+        this.addTriangleWithNormal(v1, v2, v3, color, normal);
+        this.addTriangleWithNormal(v1, v3, v4, color, normal);
     }
 
     addTriangle(v1, v2, v3, color) {
+        let normal = this.calculateNormal(v1, v2, v3);
+        this.addTriangleWithNormal(v1, v2, v3, color, normal);
+    }
+
+    addTriangleWithNormal(v1, v2, v3, color, normal) {
         this.vertices.push(...v1, ...v2, ...v3);
+        this.normals.push(...normal, ...normal, ...normal);
         this.uv.push(
             0.0, 0.0,
             1.0, 0.0,
@@ -50,6 +58,16 @@ class TriangularPrism extends Shape {
         for (let i = 0; i < 3; i++) {
             this.colors.push(...color);
         }
+    }
+
+    calculateNormal(v1, v2, v3) {
+        let ux = v2[0] - v1[0], uy = v2[1] - v1[1], uz = v2[2] - v1[2];
+        let vx = v3[0] - v1[0], vy = v3[1] - v1[1], vz = v3[2] - v1[2];
+        let nx = uy * vz - uz * vy;
+        let ny = uz * vx - ux * vz;
+        let nz = ux * vy - uy * vx;
+        let length = Math.sqrt(nx * nx + ny * ny + nz * nz);
+        return [nx / length, ny / length, nz / length];
     }
 
     modifyColor(intensity) {
@@ -67,6 +85,11 @@ class TriangularPrism extends Shape {
         this.colorBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, this.colors, gl.STATIC_DRAW);
+
+        // Normal buffer initialization
+        this.normalBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, this.normals, gl.STATIC_DRAW);
 
         // UV buffer initialization
         this.uvBuffer = gl.createBuffer();
@@ -106,6 +129,10 @@ class TriangularPrism extends Shape {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.uvBuffer);
         gl.vertexAttribPointer(a_UV, 2, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(a_UV);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
+        gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(a_Normal);
 
         gl.drawArrays(gl.TRIANGLES, 0, this.vertices.length / 3);
     }
