@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Assignment 5C: Exploring a High-Level Graphics Library</title>
+    <p>
+      About:
+      <p>
+      This is a 3D scene created using the Three.js library. 
+      <p>
+      It depicts a magical forest with an apple tree at its center.
+      <p>
+      By this apple tree is a small magical pond that can bring things to life.
+      <p>
+      One of the apples fell off, landed in the pond, and become an apple warrior.
+      <p>
+      The apple warrior now guards the pond and the tree as any honorable apple should.
+    <p>
+      Controls:
+      <p>
+      -Switch between cameras with 1, 2, and 3, and use WASD to move the camera
+    </p>
+    <p>
+      -Drag the mouse to look around, and use the scroll wheel to zoom in and out
+    </p>
+    <p id="numdot">XXX</p>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+      #c {
+        width: 50%;
+        height: 40vh; /* Full viewport height */
+        display: block;
+        margin: auto;
+        margin-top: 0;
+      }
+      /* CSS for the loading screen */
+      #loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+      #loading .progress {
+        margin: 1.5em;
+        border: 1px solid white;
+        width: 50vw;
+      }
+      #loading .progressbar {
+        height: 1em;
+        background-color: white;
+        transform-origin: left center;
+        transform: scaleX(0);
+        transition: transform 0.5s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+    <div id="loading">
+      <div class="progress"><div class="progressbar"></div></div>
+    </div>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@latest/build/three.module.js",
+          "OBJLoader": "https://unpkg.com/three@latest/examples/jsm/loaders/OBJLoader.js",
+          "MTLLoader": "https://unpkg.com/three@latest/examples/jsm/loaders/MTLLoader.js",
+          "OrbitControls": "https://unpkg.com/three@latest/examples/jsm/controls/OrbitControls.js",
+          "DecalGeometry": "https://unpkg.com/three@latest/examples/jsm/geometries/DecalGeometry.js",
+          "FBXLoader": "https://unpkg.com/three@latest/examples/jsm/loaders/FBXLoader.js",
+          "Water": "https://unpkg.com/three@latest/examples/jsm/objects/Water.js"
+        }
+      }
+    </script>
+    <script type="module" src="asg5c.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+  </body>
+  <p>
+    Details to note:
+    <p>
+    -3 light sources: ambient, directional, and point
+    <p>
+    -There are 3 cameras that you can switch between, two are perspective and one is orthographic
+    <p>
+    -Cameras each have a spotlight attached to them
+    <p>
+    -The perspective cameras can both be moved
+    <p>
+    -The central apple tree is a 3D model imported from an OBJ file
+    <p>
+    -The apple warrior, apple, fireflies, rocks, and trees are all made by me
+    <p>
+    -The apple warrior's face is a decal
+    <p>
+    -The fireflies are animated and each have their own light source
+    <p>
+    -There is a starry night sky skybox
+    <p> 
+    Now for the new additions to 5c:
+    <p>
+    -The pond made using the three.js water class
+    <p>
+    -The colored particles above the pond
+    <p>
+    -A fog effect also made with three.js
+    <p>
+    -Bushes are loaded from an FBX file instead of the custom ones I made in 5b
+    <p> 
+    -Added mushroom objects that are scattered around, each has its own light coming off it
+    <p> 
+    -Fixed the texture loader progress bar
+  </p>
+</html>
